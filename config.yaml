@@ -1,0 +1,39 @@
+# Azure Load Testing - Azure AI Search - Agentic Retrieval load test configuration
+# https://learn.microsoft.com/en-us/azure/load-testing/reference-test-config-yaml
+version: v0.1
+
+# ── Identity ──────────────────────────────────────────────────────────────────
+# Unique test identifier.  Change this to match an existing test or leave as-is
+# to create a new one when the test is first uploaded.
+testId: azure-ai-search-agentic-retrieval
+
+displayName: Azure AI Search - Agentic Retrieval
+description: >
+  Load test for Azure AI Search - Agentic Retrieval using the Knowledge Retrieval REST API
+  (POST /knowledgebases/{name}/retrieve, api-version 2025-11-01-preview).
+  Authentication uses the managed identity of the load-test engine when
+  running in Azure, and the Azure CLI credential when running locally.
+
+# ── Test plan ─────────────────────────────────────────────────────────────────
+testPlan: locustfile.py
+testType: Locust
+
+# ── Load shape ────────────────────────────────────────────────────────────────
+engineInstances: 1          # Increase for higher concurrency / geo-distribution
+
+# ── Environment variables ─────────────────────────────────────────────────────
+# These are passed to the Locust worker process both for local and cloud runs.
+# Update the placeholder values before running the test.
+env:
+  - name: SEARCH_ENDPOINT
+    value: https://<your-service>.search.windows.net   # e.g. https://mysearch.search.windows.net
+
+  - name: KNOWLEDGE_BASE_NAME
+    value: your-knowledge-base                         # target knowledge base for Agentic Retrieval
+
+# ── Failure criteria ──────────────────────────────────────────────────────────
+# The test is marked as failed if any of these thresholds are breached.
+failureCriteria:
+  - avg(response_time_ms) > 15000   # average response time must stay below 15 s
+  - error > 0.05                    # error rate must stay below 5 %
+

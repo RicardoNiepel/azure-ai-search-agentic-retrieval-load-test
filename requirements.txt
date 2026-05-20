@@ -1,0 +1,15 @@
+# Runtime dependencies for the Locust load test.
+# Install locally with: pip install -r requirements.txt
+#
+# azure-identity  – required for local runs (AzureCliCredential).
+#                   When running inside Azure Load Testing the IMDS endpoint is
+#                   used instead, but installing the package unconditionally
+#                   avoids import errors if the environment-detection logic ever
+#                   falls back to the CLI path.
+# python-dotenv   – loads variables from a local .env file so you do not need
+#                   to export them in your shell before running Locust.
+
+locust>=2.20.0
+azure-identity>=1.15.0
+python-dotenv>=1.0.0
+requests>=2.31.0
