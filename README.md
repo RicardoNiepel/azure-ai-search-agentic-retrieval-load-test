@@ -116,22 +116,9 @@ Azure AI Search resource (see [RBAC requirements](#rbac-requirements)).
 
 ## Running in Azure Load Testing
 
-1. Open `config.yaml` and verify the `env` section reflects the correct values
-   for your Azure environment (these override the `.env` file in cloud runs):
+1. Execute command `Load Testing: Run load test (Azure Load Testing)`, select `locustfile.py` and  then select or create an Azure Load Testing resource. Also select `Monitor server-side metrics` to add your Azure AI Search resource as a reference identity for monitoring during the test run.
 
-   ```yaml
-   env:
-     - name: SEARCH_ENDPOINT
-       value: https://mysearch.search.windows.net
-     - name: KNOWLEDGE_BASE_NAME
-       value: my-knowledge-base
-   ```
-
-2. Right-click `config.yaml` in the VS Code Explorer and choose
-   **Run load test in Azure**, then select or create an Azure Load Testing
-   resource.
-
-3. The extension packages `locustfile.py`, `config.yaml`, and
+2. The extension packages `locustfile.py`, `config.yaml`, and
    `requirements.txt`, uploads them, and starts the test run in the cloud.
 
 When running in Azure, the script uses the **managed identity** of the
@@ -142,10 +129,11 @@ the test plan.
 
 ## RBAC requirements
 
-| Context            | Identity                                 | Required role              |
-| ------------------ | ---------------------------------------- | -------------------------- |
-| Local              | Your Azure AD user                       | `Search Index Data Reader` |
-| Azure Load Testing | Managed identity of the load-test engine | `Search Index Data Reader` |
+| Context            | Identity                                            | Required role              | Scope                    |
+| ------------------ | --------------------------------------------------- | -------------------------- | ------------------------ |
+| Local              | Your Azure AD user                                  | `Search Index Data Reader` | Azure AI Search resource |
+| Azure Load Testing | Managed identity of the Azure Load Testing resource | `Search Index Data Reader` | Azure AI Search resource |
+| Azure Load Testing | Managed identity of the Azure Load Testing resource | `Monitoring Reader`        | Resource group           |
 
 Assign the role with the Azure CLI:
 

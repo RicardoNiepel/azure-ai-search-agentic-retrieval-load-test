@@ -3,3 +3,6 @@ __pycache__/
 
 # Local environment variables – never commit this file.
 .env
+
+# Generated loadtest.config.yaml from the extension
+loadtest.config.yaml
