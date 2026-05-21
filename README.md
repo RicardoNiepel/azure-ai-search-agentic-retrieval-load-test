@@ -118,7 +118,19 @@ Azure AI Search resource (see [RBAC requirements](#rbac-requirements)).
 
 1. Execute command `Load Testing: Run load test (Azure Load Testing)`, select `locustfile.py` and  then select or create an Azure Load Testing resource. Also select `Monitor server-side metrics` to add your Azure AI Search resource as a reference identity for monitoring during the test run.
 
-2. The extension packages `locustfile.py`, `config.yaml`, and
+2. adjust the `displayName` and `description` fields in `loadtest.config.yaml` if desired – these are shown in the Azure portal to identify your test configuration.
+
+3. **WORKAROUND NEEDED** add the following to the `referenceIdentities` section of your `loadtest.config.yaml` to allow the load testing engine to authenticate to Azure AI Search using its managed identity:
+
+```yaml
+referenceIdentities:
+- type: SystemAssigned
+   kind: Engine
+```
+
+> **WORKAROUND:** Because of a bug this needs to be done manually in the portal after deployment: [Configure the Managed identity for authentication scenarios](https://learn.microsoft.com/en-us/azure/app-testing/load-testing/how-to-test-secured-endpoints?tabs=portal#select-the-managed-identity-in-the-load-test-configuration)
+
+4. The extension packages `locustfile.py`, `config.yaml`, and
    `requirements.txt`, uploads them, and starts the test run in the cloud.
 
 When running in Azure, the script uses the **managed identity** of the

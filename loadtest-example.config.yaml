@@ -47,10 +47,14 @@ failureCriteria:
 # ── Exisiting resource references ──────────────────────────────────────────────
 resourceId: /subscriptions/<sub-id>/resourceGroups/<rg>/providers/Microsoft.LoadTestService/loadTests/<loadtest-resource-name>
 
-# ── Monitoring server-side Azure AI Search metrics ────────────────────────────
+# ── Identities to be used by the load testing engine and monitoring components ─
 referenceIdentities:
   - type: SystemAssigned
+    kind: Engine
+  - type: SystemAssigned
     kind: Metrics
+
+# ── Monitoring server-side Azure AI Search metrics ────────────────────────────
 appComponents:
   - resourceId: >-
       /subscriptions/<sub-id>/resourceGroups/<rg>/providers/Microsoft.Search/searchServices/<search-resource-name>

@@ -212,7 +212,7 @@ class AgenticRetrievalUser(HttpUser):
             json=self._PAYLOAD,
             headers=headers,
             params={"api-version": API_VERSION},
-            name="Knowledge Retrieval REST API - POST /knowledgebases('{knowledgeBaseName}')/retrieve",
+            name=f"Knowledge Retrieval REST API - POST /knowledgebases('{KNOWLEDGE_BASE_NAME}')/retrieve",
             catch_response=True,
         ) as response:
             # HTTP 200 = complete response; 206 = partial (still a success)
